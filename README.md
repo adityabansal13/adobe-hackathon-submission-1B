@@ -1,36 +1,36 @@
-# Round 1A: Document Outline Extractor
+# Adobe Hackathon 2025 Submission – Unified Round 1A & 1B
 
-This is a solution for Round 1A of the "Connecting the Dots" Hackathon. It's a Python script that extracts a structured outline (title, H1, H2, H3) from a PDF file and outputs it as a JSON file.
+This solution handles both Round 1A and Round 1B of Adobe's "Connecting the Dots" Hackathon challenge using a single script controlled by an environment variable.
 
-## Approach
+## 🔧 Rounds Overview
 
-The core of the solution is a rule-based algorithm that analyzes the font properties of the text in the PDF to identify headings. Here's a high-level overview of the approach:
+- **Round 1A**: Extracts the title and hierarchical outline (H1, H2, H3) from PDFs.
+- **Round 1B**: Extracts and ranks the most relevant document sections for a persona-driven task.
 
-1.  **Font Analysis:** The script first analyzes the font sizes used throughout the document to get a sense of the document's typography.
-2.  **Title Extraction:** The title is identified by finding the line of text with the largest font size on the first page of the document.
-3.  **Heading Detection:** Headings are identified by finding lines of text with a font size that is larger than the most common font size in the document. The heading levels (H1, H2, H3) are determined by ranking the font sizes of the headings.
-4.  **Noise Filtering:** The script includes a number of rules to filter out "noise" (i.e., text that looks like a heading but isn't), such as lines that are too long or that end with a period.
-5.  **JSON Output:** The extracted title and outline are then formatted into a JSON file, as per the requirements of the challenge.
+## 🛠️ Build the Docker Image
 
-## Libraries Used
+```bash
+docker build --platform linux/amd64 -t adobe-pdf-solution .
+```
 
-*   **pdfplumber:** This library was chosen for its ability to extract detailed information about the text and layout of a PDF, including character-level font information. This was essential for the font analysis part of the algorithm.
-*   **pathlib:** This standard library was used for path manipulation.
+## 🚀 Run the Container
 
-## How to Build and Run
+### Round 1A
+```bash
+docker run --rm   -e MODE=round1a   -v $(pwd)/input:/app/input   -v $(pwd)/output:/app/output   --network none   adobe-pdf-solution
+```
 
-The solution is packaged as a Docker container. To build and run it, follow these steps:
+### Round 1B
+```bash
+docker run --rm   -e MODE=round1b   -e PERSONA="PhD Researcher in Computational Biology"   -e JOB_TO_BE_DONE="Prepare a literature review on GNNs for drug discovery"   -v $(pwd)/input:/app/input   -v $(pwd)/output:/app/output   --network none   adobe-pdf-solution
+```
 
-1.  **Build the Docker image:**
+## 📁 File Structure
 
-    ```bash
-    docker build -t outline-extractor .
-    ```
+- `solution.py`: Unified script for both rounds
+- `Dockerfile`: Container setup for offline execution
+- `README.md`: Setup and usage documentation
+- `approach_explanation.md`: Methodology explanation for Round 1B
 
-2.  **Run the Docker container:**
-
-    ```bash
-    docker run --rm -v $(pwd)/input:/app/input -v $(pwd)/output:/app/output outline-extractor
-    ```
-
-    This will process all the PDF files in the `input` directory and save the corresponding JSON files to the `output` directory. 
+## ⚠️ Note
+Ensure `input/` contains valid `.pdf` files before running.
