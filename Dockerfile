@@ -8,5 +8,8 @@ COPY solution.py .
 # Install our dependencies
 RUN pip install pdfplumber
 
+# Create input/output folders
+RUN mkdir -p /app/input /app/output
+
 # Set the command to run our script
-CMD ["python", "solution.py"] 
+CMD ["python", "solution.py"]
