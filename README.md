@@ -31,6 +31,3 @@ docker run --rm   -e MODE=round1b   -e PERSONA="PhD Researcher in Computational 
 - `Dockerfile`: Container setup for offline execution
 - `README.md`: Setup and usage documentation
 - `approach_explanation.md`: Methodology explanation for Round 1B
-
-## ⚠️ Note
-Ensure `input/` contains valid `.pdf` files before running.
