@@ -1,36 +1,60 @@
-# Adobe Hackathon 2025 Submission – 1B
+# Round 1B: Persona-Driven Document Intelligence
 
-This solution handles both Round 1A and Round 1B of Adobe's "Connecting the Dots" Hackathon challenge using a single script controlled by an environment variable.
+## 📝 Overview
+This solution is designed for the Round 1B challenge of the Document Intelligence Hackathon. It extracts and ranks the most relevant sections from a set of input PDFs, based on a specific persona and job-to-be-done.
 
-## 🔧 Rounds Overview
-
-- **Round 1A**: Extracts the title and hierarchical outline (H1, H2, H3) from PDFs.
-- **Round 1B**: Extracts and ranks the most relevant document sections for a persona-driven task.
-
-## 🛠️ Build the Docker Image
-
-```bash
-docker build --platform linux/amd64 -t adobe-pdf-solution .
+## 📦 Contents
+```
+.
+├── Dockerfile
+├── solution.py
+├── requirements.txt
+├── approach_explanation.md
+└── models
+    └── paraphrase-MiniLM-L6-v2
+        ├── config.json
+        ├── pytorch_model.bin
+        ├── sentence_bert_config.json
+        ├── special_tokens_map.json
+        ├── tokenizer_config.json
+        └── vocab.txt
 ```
 
-## 🚀 Run the Container
+## ⚙️ Requirements
+- Docker
+- PDFs to analyze (provide at runtime)
 
-### Round 1A
+## 🐳 Build Docker Image
 ```bash
-docker run --rm   -e MODE=round1a   -v $(pwd)/input:/app/input   -v $(pwd)/output:/app/output   --network none   adobe-pdf-solution
+docker build -t round1b-solution .
 ```
 
-### Round 1B
+## 🚀 Run Inference
+1. Place your input PDFs in the current directory
+2. Update `solution.py` (or mount JSON inputs)
+3. Run:
 ```bash
-docker run --rm   -e MODE=round1b   -e PERSONA="PhD Researcher in Computational Biology"   -e JOB_TO_BE_DONE="Prepare a literature review on GNNs for drug discovery"   -v $(pwd)/input:/app/input   -v $(pwd)/output:/app/output   --network none   adobe-pdf-solution
+docker run --rm -v $PWD:/app round1b-solution
 ```
 
-## 📁 File Structure
+## 📤 Output
+- A file named `output.json` is generated
+- It contains:
+  - Metadata
+  - Ranked extracted sections
+  - Subsection analysis
 
-- `solution.py`: Unified script for both rounds
-- `Dockerfile`: Container setup for offline execution
-- `README.md`: Setup and usage documentation
-- `approach_explanation.md`: Methodology explanation for Round 1B
+## ✅ Compliance
+- ✅ CPU-only inference
+- ✅ Model size < 1GB
+- ✅ No internet access
+- ✅ ≤ 60s runtime for 3–5 PDFs
 
-## ⚠️ Note
-Ensure `input/` contains valid `.pdf` files before running.
+## 🧠 Model Info
+Uses `paraphrase-MiniLM-L6-v2` from Sentence Transformers, saved locally in `models/`.
+
+## 🧪 Sample Test
+To test, drop a few PDFs in the directory and run the container. Sample persona/job-to-be-done can be updated in `solution.py`.
+
+## 📩 Contact
+For any issues, reach out to the team via the hackathon portal.
