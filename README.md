@@ -1,4 +1,4 @@
-# Adobe Hackathon 2025 Submission – Unified Round 1A & 1B
+# Adobe Hackathon 2025 Submission – 1B
 
 This solution handles both Round 1A and Round 1B of Adobe's "Connecting the Dots" Hackathon challenge using a single script controlled by an environment variable.
 
